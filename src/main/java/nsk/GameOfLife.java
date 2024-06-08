@@ -160,7 +160,12 @@ public class GameOfLife {
         switch (command) {
             case "create":
                 if (args.length == 2) {
-                    this.addCountry(new Country(args[1]));
+                    try {
+                        this.addCountry(new Country(args[1]));
+                        systemMessage("You have created new country called " + args[1]);
+                    } catch (Exception e) {
+                        consoleError(e);
+                    }
                 } else {
                     this.systemMessage("You must enter a country name.");
                 }
@@ -170,6 +175,8 @@ public class GameOfLife {
                     if (isValidKnightType(args[2])) {
                         Country c = this.getCountry(args[1]);
                         c.addEntity( new Knight(Knight.JobType.valueOf(args[2])) );
+
+                        systemMessage("You have added new Knight to army of " + c.getName());
                     } else {
                         this.systemMessage("You must enter a valid knight type.");
                     }
