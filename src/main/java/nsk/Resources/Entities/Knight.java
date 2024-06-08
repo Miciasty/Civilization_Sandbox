@@ -4,7 +4,7 @@ import src.main.java.nsk.Resources.Entity;
 
 public class Knight extends Entity {
 
-    private JobType job = JobType.Trainee;
+    private JobType job = JobType.TRAINEE;
 
     public Knight() {
         this.setHealth(50);
@@ -31,11 +31,11 @@ public class Knight extends Entity {
     }
 
     public enum JobType {
-        Trainee,
-        Warrior,
-        Bowman,
-        Horseman,
-        Magician
+        TRAINEE,
+        WARRIOR,
+        BOWMAN,
+        HORSEMAN,
+        MAGICIAN
     }
 
 }

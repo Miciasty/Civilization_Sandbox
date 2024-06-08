@@ -113,6 +113,37 @@ public class Country {
         return power;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        int A = 0, C = 0,  e = 0, c = 0, k = 0;
+
+        if (!lives.isEmpty()) {
+            e = this.lives.size();
+
+            if (!getAllEntitiesOfClass(Citizen.class).isEmpty()) {
+                c = getAllEntitiesOfClass(Citizen.class).size();
+            }
+            if (!getAllEntitiesOfClass(Knight.class).isEmpty()) {
+                k = getAllEntitiesOfClass(Knight.class).size();
+                A = this.getArmyPower();
+            }
+
+            C = this.getCountryPower();
+        }
+
+        sb  .append("\n")
+            .append("[" + this.name + "]\n")
+            .append("[Army power: " + A + "]\n")
+            .append("[Country power: " + C + "]\n")
+            .append("[All Lives: " + e + "]\n")
+            .append("[Citizens: " + c + "]\n")
+            .append("[Knight: " + k + "]\n");
+
+        return sb.toString();
+
+    }
+
     //  --  --  --  --  //  --  --  --  --  // Mechanics //  --  --  --  --  //  --  --  --  --  //
 
     public void attack(String countryName) {
@@ -168,6 +199,9 @@ public class Country {
                 this.lives.removeAll(entitiesToDie);
             }
 
+            GameInstance.getInstance().systemMessage(enemy.getName() + " has won the war!");
+
+
         } else if (this.getArmyPower() == enemy.getArmyPower()) {
 
             for (Entity e : this.getAllEntitiesOfClass(Knight.class)) {
@@ -177,6 +211,8 @@ public class Country {
             for (Entity e : enemy.getAllEntitiesOfClass(Knight.class)) {
                 enemy.lives.remove(e); // - If armies are equal... all Knights dies!
             }
+
+            GameInstance.getInstance().systemMessage("Nobody won the war! And all soldiers died :(");
 
         } else {
 
@@ -216,7 +252,12 @@ public class Country {
                 enemy.lives.removeAll(entitiesToDie);
             }
 
+            GameInstance.getInstance().systemMessage(this.getName() + " has won the war!");
+
         }
+
+        GameInstance.getInstance().systemMessage(this.getName() + " total points: " + this.getCountryPower());
+        GameInstance.getInstance().systemMessage(enemy.getName() + " total points: " + enemy.getCountryPower());
 
     }
 

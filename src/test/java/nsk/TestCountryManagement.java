@@ -64,7 +64,7 @@ public class TestCountryManagement {
             V.addEntity(new Citizen());
         }
         for (int i=0; i<6; i++) {
-            V.addEntity(new Knight(Knight.JobType.Horseman));
+            V.addEntity(new Knight(Knight.JobType.HORSEMAN));
         }
 
         List<Entity> entities = V.getAllEntitiesOfClass(Knight.class);

@@ -4,7 +4,7 @@ import src.main.java.nsk.Resources.Entity;
 
 public class Citizen extends Entity {
 
-    private JobType job = JobType.Homeless;
+    private JobType job = JobType.HOMELESS;
 
     public Citizen() {
         this.setHealth(5);
@@ -31,9 +31,9 @@ public class Citizen extends Entity {
     }
 
     public enum JobType {
-        Homeless,
-        Basic,
-        Aristocrat
+        HOMELESS,
+        BASIC,
+        ARISTOCRAT
     }
 
 }

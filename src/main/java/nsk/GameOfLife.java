@@ -8,6 +8,7 @@ import src.main.java.nsk.Resources.GameInstance;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class GameOfLife {
 
@@ -24,16 +25,16 @@ public class GameOfLife {
             List<Entity> entities = new ArrayList<>();
 
             for (int i = 0; i < 30; i++) {
-                entities.add(new Citizen(Citizen.JobType.Basic));
+                entities.add(new Citizen(Citizen.JobType.BASIC));
             }
             for (int i = 0; i < 10; i++) {
-                entities.add(new Citizen(Citizen.JobType.Aristocrat));
+                entities.add(new Citizen(Citizen.JobType.ARISTOCRAT));
             }
             for (int i = 0; i < 400; i++) {
-                entities.add(new Knight(30, 45, Knight.JobType.Magician));
+                entities.add(new Knight(30, 45, Knight.JobType.MAGICIAN));
             }
 
-            this.countries.add(new Country("Western Empire", entities));
+            this.countries.add(new Country("Empire", entities));
 
 
             GameInstance.getInstance().systemMessage("Starting new session...");
@@ -50,14 +51,15 @@ public class GameOfLife {
                 .append(" - 'create' {country name}\n")
                 .append(" - 'add' {country_name} {type_of_knight}\n")
                 .append("       | + 'trainee'   | + 'warrior'   | + 'bowman'    |\n")
-                .append("       | + 'horseman'  | + 'magician   | + 'mage       |\n")
-                .append(" - 'attack' {country_name}")
+                .append("       | + 'horseman'  | + 'magician   |\n")
+                .append(" - 'attack' {country_name} {country_name}\n")
                 .append(" - 'status' {country_name}'\n")
                 .append(" - 'help'\n")
                 .append(" - 'exit'\n\n")
 
                 .append("Use console to write commands above.\n");
     }
+
     public void showMenu() {
         this.systemMessage(menu.toString());
     }
@@ -66,6 +68,13 @@ public class GameOfLife {
         new GameOfLife();
         GameInstance.getInstance().showMenu();
 
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            String input = scanner.nextLine();
+            GameInstance.getInstance().CommandHandler(input);
+        }
 
     }
 
@@ -118,6 +127,7 @@ public class GameOfLife {
     public void removeCountry(Country c) {
         this.countries.remove(c);
     }
+
     public void removeCountry(String name) {
         try {
             for (Country c : countries) {
@@ -169,12 +179,13 @@ public class GameOfLife {
                 } else {
                     this.systemMessage("You must enter a country name.");
                 }
+                break;
 
             case "add":
                 if (args.length == 3 && existCountry(args[1])) {
                     if (isValidKnightType(args[2])) {
                         Country c = this.getCountry(args[1]);
-                        c.addEntity( new Knight(Knight.JobType.valueOf(args[2])) );
+                        c.addEntity(new Knight(Knight.JobType.valueOf(args[2].toUpperCase())));
 
                         systemMessage("You have added new Knight to army of " + c.getName());
                     } else {
@@ -183,7 +194,38 @@ public class GameOfLife {
                 } else {
                     this.systemMessage("You must enter a country name and type of knight.");
                 }
-        }
-    }
+                break;
 
+            case "attack":
+                if (args.length == 3 && existCountry(args[1]) && existCountry(args[2])) {
+                    try {
+                        Country attacker = this.getCountry(args[1]);
+                        Country defender = this.getCountry(args[2]);
+
+                        attacker.attack(defender);
+                    } catch (Exception e) {
+                        this.consoleError(e);
+                    }
+                }
+                break;
+
+            case "status":
+                if (args.length == 2 && existCountry(args[1])) {
+                    Country c = this.getCountry(args[1]);
+                    this.systemMessage(c.toString());
+                } else {
+                    this.systemMessage("You must enter a country name.");
+                }
+                break;
+
+            case "help":
+                showMenu();
+                break;
+
+            case "exit":
+                System.exit(0);
+                break;
+        }
+
+    }
 }
