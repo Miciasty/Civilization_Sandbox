@@ -60,7 +60,7 @@ public class Entity {
         this.health = this.health - d;
 
         if (this.health < 1) {
-            throw new IllegalStateException("The entity " + this.getClass() + " died.");
+            throw new IllegalStateException("The " + this.getClass().getSimpleName() + " died.");
         }
     }
 

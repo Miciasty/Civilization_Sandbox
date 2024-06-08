@@ -93,6 +93,16 @@ public class Country {
         }
     }
 
+    public int getCountryPower() {
+        int power = 0;
+
+        for (Entity e : this.getEntities()) {
+            power = power + e.getDamage();
+        }
+
+        return power;
+    }
+
     public int getArmyPower() {
         int power = 0;
 
@@ -112,17 +122,37 @@ public class Country {
             int difference = enemy.getArmyPower() - this.getArmyPower();
 
             for (Entity e : this.getAllEntitiesOfClass(Knight.class)) {
-                e.dropHealth(5); // - All knights will take 5 damage.
+                try {
+                    e.dropHealth(30); // - All knights will take 5 damage.
+                } catch (Exception ex) {
+                    GameInstance.getInstance().consoleError(ex);
+                    this.lives.remove(e);
+                }
             }
 
             for (Entity e : enemy.getAllEntitiesOfClass(Knight.class)) {
-                e.dropHealth(2); // - All knights of the winning Country will take 2 damage.
+                try {
+                    e.dropHealth(12); // - All knights of the winning Country will take 2 damage.
+                } catch (Exception ex) {
+                    GameInstance.getInstance().consoleError(ex);
+                    enemy.lives.remove(e);
+                }
             }
 
             for (int i=0; i<(this.lives.size()/2); i++) {
+
+                List<Entity> entitiesToDie = new ArrayList<>();
+
                 if (this.lives.get(i).equals(Citizen.class)) {
-                    this.damageEntity(i, (difference/2)); // - All citizens will take damaged based on the difference in power.
+                    try {
+                        this.damageEntity(i, (difference/2)); // - All citizens will take damaged based on the difference in power.
+                    } catch (Exception ex) {
+                        GameInstance.getInstance().consoleError(ex);
+                        entitiesToDie.add(this.lives.get(i));
+                    }
                 }
+
+                this.lives.removeAll(entitiesToDie);
             }
 
         } else if (this.getArmyPower() == enemy.getArmyPower()) {
@@ -137,20 +167,40 @@ public class Country {
 
         } else {
 
-            int difference = this.getArmyPower() - enemy.getArmyPower();
-
-            for (Entity e : this.getAllEntitiesOfClass(Knight.class)) {
-                e.dropHealth(2); // - All knights will take 5 damage.
-            }
+            int difference =  this.getArmyPower() - enemy.getArmyPower();
 
             for (Entity e : enemy.getAllEntitiesOfClass(Knight.class)) {
-                e.dropHealth(5); // - All knights of the winning Country will take 2 damage.
+                try {
+                    e.dropHealth(30); // - All knights will take 5 damage.
+                } catch (Exception ex) {
+                    GameInstance.getInstance().consoleError(ex);
+                    enemy.lives.remove(e);
+                }
+            }
+
+            for (Entity e : this.getAllEntitiesOfClass(Knight.class)) {
+                try {
+                    e.dropHealth(12); // - All knights of the winning Country will take 2 damage.
+                } catch (Exception ex) {
+                    GameInstance.getInstance().consoleError(ex);
+                    this.lives.remove(e);
+                }
             }
 
             for (int i=0; i<(enemy.lives.size()/2); i++) {
+
+                List<Entity> entitiesToDie = new ArrayList<>();
+
                 if (enemy.lives.get(i).equals(Citizen.class)) {
-                    enemy.damageEntity(i, (difference/2)); // - All citizens will take damaged based on the difference in power.
+                    try {
+                        enemy.damageEntity(i, (difference/2)); // - All citizens will take damaged based on the difference in power.
+                    } catch (Exception ex) {
+                        GameInstance.getInstance().consoleError(ex);
+                        entitiesToDie.add(enemy.lives.get(i));
+                    }
                 }
+
+                enemy.lives.removeAll(entitiesToDie);
             }
 
         }
