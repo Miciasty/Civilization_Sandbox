@@ -1,6 +1,7 @@
 package src.main.java.nsk.Civilizations;
 
 import src.main.java.nsk.Resources.Entity;
+import src.main.java.nsk.Resources.GameInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,7 @@ public class Country {
             this.lives.get(i).dropHealth();
         } catch (Exception e) {
             lives.remove(i);
-            System.out.println(e.getMessage());
+            GameInstance.getInstance().consoleError(e);
         }
     }
 
