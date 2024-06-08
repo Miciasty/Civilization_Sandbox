@@ -3,27 +3,26 @@ package src.test.java.nsk;
 import org.junit.Before;
 import org.junit.Test;
 import src.main.java.nsk.Civilizations.Country;
-import src.main.java.nsk.GameOfLife;
+import src.main.java.nsk.CivilizationSandbox;
 import src.main.java.nsk.Resources.Entities.Citizen;
 import src.main.java.nsk.Resources.Entities.Knight;
-import src.main.java.nsk.Resources.Entity;
 
 import static org.junit.Assert.assertEquals;
 
 public class TestWar {
 
     private Country V, E;
-    private GameOfLife gameOfLife;
+    private CivilizationSandbox civilizationSandbox;
 
     @Before
     public void init() {
-        gameOfLife = new GameOfLife();
+        civilizationSandbox = new CivilizationSandbox();
 
         V = new Country("Valhalla");
         E = new Country("Empire");
 
-        gameOfLife.addCountry(V);
-        gameOfLife.addCountry(E);
+        civilizationSandbox.addCountry(V);
+        civilizationSandbox.addCountry(E);
     }
 
     @Test

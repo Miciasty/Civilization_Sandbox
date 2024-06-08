@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class GameOfLife {
+public class CivilizationSandbox {
 
     private final List<Country> countries = new ArrayList<>();
     private static final StringBuilder menu = new StringBuilder();
 
-    public GameOfLife() {
+    public CivilizationSandbox() {
         GameInstance.setInstance(this);
 
         try {
@@ -44,8 +44,8 @@ public class GameOfLife {
     }
 
     private void setMenu() {
-        menu.append("\nWelcome to the Game Of Life!\n")
-                .append("Quick notification! This is simple sandbox simulator.\n\n")
+        menu.append("\nWelcome to the Civilization Sandbox!\n")
+                .append("Quick notification! This is simple a simulator.\n\n")
 
                 .append("Please check your options below:\n")
                 .append(" - 'create' {country name}\n")
@@ -65,7 +65,7 @@ public class GameOfLife {
     }
 
     public static void main(String[] args) {
-        new GameOfLife();
+        new CivilizationSandbox();
         GameInstance.getInstance().showMenu();
 
 

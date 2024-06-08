@@ -3,7 +3,7 @@ package src.test.java.nsk;
 import org.junit.Before;
 import org.junit.Test;
 import src.main.java.nsk.Civilizations.Country;
-import src.main.java.nsk.GameOfLife;
+import src.main.java.nsk.CivilizationSandbox;
 import src.main.java.nsk.Resources.Entities.Citizen;
 import src.main.java.nsk.Resources.Entities.Knight;
 import src.main.java.nsk.Resources.Entity;
@@ -16,40 +16,40 @@ import static org.junit.Assert.assertNull;
 public class TestCountryManagement {
 
     private Country V;
-    private GameOfLife gameOfLife;
+    private CivilizationSandbox civilizationSandbox;
 
     @Before
     public void init() {
-        gameOfLife = new GameOfLife();
+        civilizationSandbox = new CivilizationSandbox();
 
         V = new Country("Valhalla");
-        gameOfLife.addCountry(V);
+        civilizationSandbox.addCountry(V);
     }
 
 
     @Test
     public void testCountryCreation() {
-        assertEquals("Valhalla", gameOfLife.getCountry(0).getName());
+        assertEquals("Valhalla", civilizationSandbox.getCountry(0).getName());
     }
 
     @Test
     public void testCountryDeletion() {
 
-        assertEquals("Valhalla", gameOfLife.getCountry(0).getName());
+        assertEquals("Valhalla", civilizationSandbox.getCountry(0).getName());
 
-        gameOfLife.removeCountry(V);
+        civilizationSandbox.removeCountry(V);
 
-        assertNull(gameOfLife.getCountry(0));
+        assertNull(civilizationSandbox.getCountry(0));
     }
 
     @Test
     public void testCountryDeletionByName() {
 
-        assertEquals("Valhalla", gameOfLife.getCountry(0).getName());
+        assertEquals("Valhalla", civilizationSandbox.getCountry(0).getName());
 
-        gameOfLife.removeCountry("Valhalla");
+        civilizationSandbox.removeCountry("Valhalla");
 
-        assertNull(gameOfLife.getCountry(0));
+        assertNull(civilizationSandbox.getCountry(0));
     }
 
     @Test

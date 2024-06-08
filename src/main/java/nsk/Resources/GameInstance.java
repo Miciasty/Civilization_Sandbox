@@ -1,16 +1,16 @@
 package src.main.java.nsk.Resources;
 
-import src.main.java.nsk.GameOfLife;
+import src.main.java.nsk.CivilizationSandbox;
 
 public class GameInstance {
 
-    private static GameOfLife instance;
+    private static CivilizationSandbox instance;
 
-    public static GameOfLife getInstance() {
+    public static CivilizationSandbox getInstance() {
         return instance;
     }
 
-    public static void setInstance(GameOfLife gameInstance) {
+    public static void setInstance(CivilizationSandbox gameInstance) {
         instance = gameInstance;
     }
 }
