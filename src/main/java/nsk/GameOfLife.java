@@ -13,10 +13,8 @@ public class GameOfLife {
     public GameOfLife() {
         GameInstance.setInstance(this);
 
-        this.systemMessage("GameOfLife main works.");
-
         try {
-            GameInstance.getInstance().systemMessage("GameInstance works!");
+            GameInstance.getInstance().systemMessage("Starting new session...");
         } catch (Exception e) {
             this.consoleError(e);
         }
@@ -27,7 +25,16 @@ public class GameOfLife {
     }
 
     public Country getCountry(int i) {
-        return this.countries.get(i);
+        try {
+            if (this.countries.get(i) != null) {
+                return this.countries.get(i);
+            } else {
+                throw new IllegalArgumentException("Country not found");
+            }
+        } catch (Exception e) {
+            this.consoleError(e);
+            return null;
+        }
     }
 
     public void removeCountry(Country c) {

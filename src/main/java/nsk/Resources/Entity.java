@@ -32,25 +32,22 @@ public class Entity {
     public String toString(int n) {
         StringBuilder sb = new StringBuilder();
 
-        return String.valueOf(sb.append(this.getClass().getName())
-                                .append(": ")
+        return String.valueOf(sb.append(this.getClass().getSimpleName())
                                 .append(n).append(", Health: ")
                                 .append(health)
                                 .append(", Damage: ")
-                                .append(damage)
-                                .append("\n"));
+                                .append(damage));
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        return String.valueOf(sb.append(this.getClass().getName())
+        return String.valueOf(sb.append(this.getClass().getSimpleName())
                 .append(", Health: ")
                 .append(health)
                 .append(", Damage: ")
-                .append(damage)
-                .append("\n"));
+                .append(damage));
     }
 
     //  --  --  --  --  //  --  --  --  --  // Mechanics //  --  --  --  --  //  --  --  --  --  //

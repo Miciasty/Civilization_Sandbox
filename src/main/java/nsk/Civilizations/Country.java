@@ -1,5 +1,7 @@
 package src.main.java.nsk.Civilizations;
 
+import src.main.java.nsk.Resources.Entities.Citizen;
+import src.main.java.nsk.Resources.Entities.Knight;
 import src.main.java.nsk.Resources.Entity;
 import src.main.java.nsk.Resources.GameInstance;
 
@@ -38,7 +40,16 @@ public class Country {
         return this.lives.get(i);
     }
     public List<Entity> getEntities() {
-        return this.lives;
+        try {
+            if (!this.lives.isEmpty()) {
+                return this.lives;
+            } else {
+                throw new IllegalArgumentException("This country does not have any lives.");
+            }
+        } catch (Exception e) {
+            GameInstance.getInstance().consoleError(e);
+            return null;
+        }
     }
     public <T> List<Entity> getAllEntitiesOfClass(T type) {
         List<Entity> LivesOfClass = new ArrayList<>();
@@ -62,7 +73,7 @@ public class Country {
         this.lives.remove(i);
     }
 
-    //  --  --  --  --  //  --  --  --  --  // Mechanics //  --  --  --  --  //  --  --  --  --  //
+    //  --  --  --  --  //  --  --  --  --  // Logic //  --  --  --  --  //  --  --  --  --  //
 
     public void damageEntity(int i) {
         try {
@@ -71,6 +82,79 @@ public class Country {
             lives.remove(i);
             GameInstance.getInstance().consoleError(e);
         }
+    }
+
+    public void damageEntity(int i, int d) {
+        try {
+            this.lives.get(i).dropHealth(d);
+        } catch (Exception e) {
+            lives.remove(i);
+            GameInstance.getInstance().consoleError(e);
+        }
+    }
+
+    public int getArmyPower() {
+        int power = 0;
+
+        for (Entity e : this.getAllEntitiesOfClass(Knight.class)) {
+            power = power + e.getDamage();
+        }
+
+        return power;
+    }
+
+    //  --  --  --  --  //  --  --  --  --  // Mechanics //  --  --  --  --  //  --  --  --  --  //
+
+    public void attack(Country enemy) {
+
+        if (this.getArmyPower() < enemy.getArmyPower()) {
+
+            int difference = enemy.getArmyPower() - this.getArmyPower();
+
+            for (Entity e : this.getAllEntitiesOfClass(Knight.class)) {
+                e.dropHealth(5); // - All knights will take 5 damage.
+            }
+
+            for (Entity e : enemy.getAllEntitiesOfClass(Knight.class)) {
+                e.dropHealth(2); // - All knights of the winning Country will take 2 damage.
+            }
+
+            for (int i=0; i<(this.lives.size()/2); i++) {
+                if (this.lives.get(i).equals(Citizen.class)) {
+                    this.damageEntity(i, (difference/2)); // - All citizens will take damaged based on the difference in power.
+                }
+            }
+
+        } else if (this.getArmyPower() == enemy.getArmyPower()) {
+
+            for (Entity e : this.getAllEntitiesOfClass(Knight.class)) {
+                this.lives.remove(e); // - If armies are equal... all Knights dies!
+            }
+
+            for (Entity e : enemy.getAllEntitiesOfClass(Knight.class)) {
+                enemy.lives.remove(e); // - If armies are equal... all Knights dies!
+            }
+
+        } else {
+
+            int difference = this.getArmyPower() - enemy.getArmyPower();
+
+            for (Entity e : this.getAllEntitiesOfClass(Knight.class)) {
+                e.dropHealth(2); // - All knights will take 5 damage.
+            }
+
+            for (Entity e : enemy.getAllEntitiesOfClass(Knight.class)) {
+                e.dropHealth(5); // - All knights of the winning Country will take 2 damage.
+            }
+
+            for (int i=0; i<(enemy.lives.size()/2); i++) {
+                if (enemy.lives.get(i).equals(Citizen.class)) {
+                    enemy.damageEntity(i, (difference/2)); // - All citizens will take damaged based on the difference in power.
+                }
+            }
+
+        }
+
     }
 
 }

@@ -6,6 +6,17 @@ public class Knight extends Entity {
 
     private JobType job = JobType.Trainee;
 
+    public Knight() {
+        this.setHealth(50);
+        this.setDamage(5);
+    }
+
+    public Knight(JobType job) {
+        this.setHealth(50);
+        this.setDamage(5);
+        this.job = job;
+    }
+
     public Knight(int h, int d, JobType job) {
         this.setHealth(h);
         this.setDamage(d);

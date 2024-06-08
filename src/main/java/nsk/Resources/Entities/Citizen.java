@@ -6,6 +6,11 @@ public class Citizen extends Entity {
 
     private JobType job = JobType.Homeless;
 
+    public Citizen() {
+        this.setHealth(5);
+        this.setDamage(1);
+    }
+
     public Citizen(int h, int d,JobType job) {
         this.setHealth(h);
         this.setDamage(d);
