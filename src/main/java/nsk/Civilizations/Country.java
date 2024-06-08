@@ -8,7 +8,7 @@ import java.util.List;
 public class Country {
 
     private String name;
-    private List<Entity> lives = new ArrayList<>();
+    private final List<Entity> lives = new ArrayList<>();
 
     public Country(String name) {
         setName(name);
@@ -56,6 +56,17 @@ public class Country {
     }
     public void removeEntityByIndex(int i) {
         this.lives.remove(i);
+    }
+
+    //  --  --  --  --  //  --  --  --  --  // Mechanics //  --  --  --  --  //  --  --  --  --  //
+
+    public void damageEntity(int i) {
+        try {
+            this.lives.get(i).dropHealth();
+        } catch (Exception e) {
+            lives.remove(i);
+            System.out.println(e.getMessage());
+        }
     }
 
 }

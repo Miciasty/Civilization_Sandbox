@@ -41,4 +41,18 @@ public class Entity {
                                 .append("\n"));
     }
 
+    //  --  --  --  --  //  --  --  --  --  // Mechanics //  --  --  --  --  //  --  --  --  --  //
+
+    public void dropHealth() {
+        this.dropHealth(1);
+    }
+
+    public void dropHealth(int d) {
+        this.health = this.health - d;
+
+        if (this.health < 1) {
+            throw new IllegalStateException("The entity " + this.getClass() + " died.");
+        }
+    }
+
 }
