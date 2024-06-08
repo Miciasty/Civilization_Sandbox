@@ -42,7 +42,27 @@ public class GameOfLife {
     public static void main(String[] args) {
         new GameOfLife();
 
+        StringBuilder menu = new StringBuilder();
+        menu.append("Welcome to the Game Of Life!\n")
+            .append("Quick notification! This is simple sandbox simulator.\n\n")
 
+            .append("Please check your options below:\n")
+            .append(" - 'create' {country name}\n")
+            .append(" - 'add' {type_of_soldier}\n")
+            .append("         + 'trainee'\n")
+            .append("         + 'warrior'\n")
+            .append("         + 'bowman'\n")
+            .append("         + 'horseman'\n")
+            .append("         + 'magician'\n")
+            .append("         + 'mage'\n")
+            .append(" - 'attack' {country_name}")
+            .append(" - 'status'\n")
+            .append(" - 'help'\n")
+            .append(" - 'exit'\n\n")
+
+            .append("Use console to write commands above.\n");
+
+        System.out.println(menu.toString());
 
     }
 
@@ -61,6 +81,10 @@ public class GameOfLife {
             this.consoleError(e);
             return null;
         }
+    }
+
+    public List<Country> getCountries() {
+        return this.countries;
     }
 
     public void removeCountry(Country c) {

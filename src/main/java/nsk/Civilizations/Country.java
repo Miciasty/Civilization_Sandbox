@@ -115,6 +115,19 @@ public class Country {
 
     //  --  --  --  --  //  --  --  --  --  // Mechanics //  --  --  --  --  //  --  --  --  --  //
 
+    public void attack(String countryName) {
+        try {
+            for (Country c : GameInstance.getInstance().getCountries()) {
+                if (c.getName().equals(countryName)) {
+                    attack(c);
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            GameInstance.getInstance().consoleError(e);
+        }
+    }
+
     public void attack(Country enemy) {
 
         if (this.getArmyPower() < enemy.getArmyPower()) {
