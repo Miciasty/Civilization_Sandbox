@@ -12,11 +12,14 @@ import java.util.List;
 public class GameOfLife {
 
     private final List<Country> countries = new ArrayList<>();
+    private static final StringBuilder menu = new StringBuilder();
 
     public GameOfLife() {
         GameInstance.setInstance(this);
 
         try {
+
+            this.setMenu();
 
             List<Entity> entities = new ArrayList<>();
 
@@ -39,30 +42,30 @@ public class GameOfLife {
         }
     }
 
+    private void setMenu() {
+        menu.append("\nWelcome to the Game Of Life!\n")
+                .append("Quick notification! This is simple sandbox simulator.\n\n")
+
+                .append("Please check your options below:\n")
+                .append(" - 'create' {country name}\n")
+                .append(" - 'add' {country_name} {type_of_knight}\n")
+                .append("       | + 'trainee'   | + 'warrior'   | + 'bowman'    |\n")
+                .append("       | + 'horseman'  | + 'magician   | + 'mage       |\n")
+                .append(" - 'attack' {country_name}")
+                .append(" - 'status' {country_name}'\n")
+                .append(" - 'help'\n")
+                .append(" - 'exit'\n\n")
+
+                .append("Use console to write commands above.\n");
+    }
+    public void showMenu() {
+        this.systemMessage(menu.toString());
+    }
+
     public static void main(String[] args) {
         new GameOfLife();
+        GameInstance.getInstance().showMenu();
 
-        StringBuilder menu = new StringBuilder();
-        menu.append("Welcome to the Game Of Life!\n")
-            .append("Quick notification! This is simple sandbox simulator.\n\n")
-
-            .append("Please check your options below:\n")
-            .append(" - 'create' {country name}\n")
-            .append(" - 'add' {type_of_soldier}\n")
-            .append("         + 'trainee'\n")
-            .append("         + 'warrior'\n")
-            .append("         + 'bowman'\n")
-            .append("         + 'horseman'\n")
-            .append("         + 'magician'\n")
-            .append("         + 'mage'\n")
-            .append(" - 'attack' {country_name}")
-            .append(" - 'status'\n")
-            .append(" - 'help'\n")
-            .append(" - 'exit'\n\n")
-
-            .append("Use console to write commands above.\n");
-
-        System.out.println(menu.toString());
 
     }
 
@@ -81,6 +84,31 @@ public class GameOfLife {
             this.consoleError(e);
             return null;
         }
+    }
+
+    public Country getCountry(String countryName) {
+        try {
+            for (Country c : this.countries) {
+                if (c.getName().equals(countryName)) {
+                    return c;
+                }
+            }
+
+            throw new IllegalArgumentException("Country not found");
+
+        } catch (Exception e) {
+            this.consoleError(e);
+            return null;
+        }
+    }
+
+    private boolean existCountry(String name) {
+        for (Country c : this.countries) {
+            if (c.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<Country> getCountries() {
@@ -106,12 +134,49 @@ public class GameOfLife {
         }
     }
 
+    public boolean isValidKnightType(String type) {
+        try {
+            Knight.JobType.valueOf(type.toUpperCase());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public void consoleError(Exception e) {
         System.out.println(e.getMessage());
     }
 
     public void systemMessage(String m) {
         System.out.println(m);
+    }
+
+    //  --  --  --  --  //  --  --  --  --  // Commands //  --  --  --  --  //  --  --  --  --  //
+
+    private void CommandHandler(String input) {
+        String[] args = input.split(" ");
+        String command = args[0];
+
+        switch (command) {
+            case "create":
+                if (args.length == 2) {
+                    this.addCountry(new Country(args[1]));
+                } else {
+                    this.systemMessage("You must enter a country name.");
+                }
+
+            case "add":
+                if (args.length == 3 && existCountry(args[1])) {
+                    if (isValidKnightType(args[2])) {
+                        Country c = this.getCountry(args[1]);
+                        c.addEntity( new Knight(Knight.JobType.valueOf(args[2])) );
+                    } else {
+                        this.systemMessage("You must enter a valid knight type.");
+                    }
+                } else {
+                    this.systemMessage("You must enter a country name and type of knight.");
+                }
+        }
     }
 
 }
