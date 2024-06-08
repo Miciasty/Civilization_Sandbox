@@ -43,6 +43,16 @@ public class TestCountryManagement {
     }
 
     @Test
+    public void testCountryDeletionByName() {
+
+        assertEquals("Valhalla", gameOfLife.getCountry(0).getName());
+
+        gameOfLife.removeCountry("Valhalla");
+
+        assertNull(gameOfLife.getCountry(0));
+    }
+
+    @Test
     public void testNullGetEntities() {
         assertNull(V.getEntities());
     }

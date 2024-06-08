@@ -11,6 +11,12 @@ public class Citizen extends Entity {
         this.setDamage(1);
     }
 
+    public Citizen(JobType job) {
+        this.setHealth(5);
+        this.setDamage(1);
+        this.job = job;
+    }
+
     public Citizen(int h, int d,JobType job) {
         this.setHealth(h);
         this.setDamage(d);
@@ -26,8 +32,8 @@ public class Citizen extends Entity {
 
     public enum JobType {
         Homeless,
-        JOB2,
-        JOB3
+        Basic,
+        Aristocrat
     }
 
 }
