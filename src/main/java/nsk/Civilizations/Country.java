@@ -37,6 +37,9 @@ public class Country {
     public Entity getEntityByIndex(int i) {
         return this.lives.get(i);
     }
+    public List<Entity> getEntities() {
+        return this.lives;
+    }
     public <T> List<Entity> getAllEntitiesOfClass(T type) {
         List<Entity> LivesOfClass = new ArrayList<>();
 

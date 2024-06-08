@@ -41,6 +41,18 @@ public class Entity {
                                 .append("\n"));
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        return String.valueOf(sb.append(this.getClass().getName())
+                .append(", Health: ")
+                .append(health)
+                .append(", Damage: ")
+                .append(damage)
+                .append("\n"));
+    }
+
     //  --  --  --  --  //  --  --  --  --  // Mechanics //  --  --  --  --  //  --  --  --  --  //
 
     public void dropHealth() {

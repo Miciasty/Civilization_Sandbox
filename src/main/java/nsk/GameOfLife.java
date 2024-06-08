@@ -12,10 +12,22 @@ public class GameOfLife {
 
     public GameOfLife() {
         GameInstance.setInstance(this);
+
+        this.systemMessage("GameOfLife main works.");
+
+        try {
+            GameInstance.getInstance().systemMessage("GameInstance works!");
+        } catch (Exception e) {
+            this.consoleError(e);
+        }
     }
 
     public void addCountry(Country c) {
         this.countries.add(c);
+    }
+
+    public Country getCountry(int i) {
+        return this.countries.get(i);
     }
 
     public void removeCountry(Country c) {
@@ -39,6 +51,10 @@ public class GameOfLife {
 
     public void consoleError(Exception e) {
         System.out.println(e.getMessage());
+    }
+
+    public void systemMessage(String m) {
+        System.out.println(m);
     }
 
 }
